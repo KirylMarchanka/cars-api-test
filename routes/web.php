@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{any}', fn() => response()->json([
+    'message' => 'Set Accept:application/json header and use api routes'
+]))->where('any', '.*');
+
