@@ -47,7 +47,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        $user = User::query()->where('email', $request->input('email'))->first();
+        $user = User::query()->where('email', $request->validated()['email'])->first();
 
         return response()->json([
             'message' => 'Successful login',
