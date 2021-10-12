@@ -37,7 +37,6 @@ class CarBrandsController extends Controller
     {
         $brand = CarBrand::query()->create($request->validated());
 
-        //@todo Use Api resource
         return response()->json([
             'message' => 'Car brand successfully created',
             'data' => (new CarResource($brand))
