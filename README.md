@@ -8,3 +8,5 @@
 7. Test application, use `http://127.0.0.1/api`
 
 Test user: test.acc@example.net / password
+
+To run the tests, use the command `docker-compose exec app php artisan test`
