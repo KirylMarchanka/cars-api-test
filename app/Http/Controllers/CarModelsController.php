@@ -22,7 +22,10 @@ class CarModelsController extends Controller
      */
     public function index(): JsonResponse
     {
-        $models = CarModel::query()->select(['id', 'name', 'created_by'])->paginate();
+        $models = CarModel::query()
+            ->with('createdBy:id,name')
+            ->select(['id', 'name', 'created_by'])
+            ->paginate();
 
         return response()->json($models);
     }

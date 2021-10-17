@@ -22,7 +22,10 @@ class CarBrandsController extends Controller
      */
     public function index(): JsonResponse
     {
-        $brands = CarBrand::query()->select(['id', 'name', 'created_by'])->paginate();
+        $brands = CarBrand::query()
+            ->with('createdBy:id,name')
+            ->select(['id', 'name', 'created_by'])
+            ->paginate();
 
         return response()->json($brands);
     }
@@ -80,8 +83,8 @@ class CarBrandsController extends Controller
         $name = $request->validated()['name'];
         $brand = CarBrand::query()
             ->where('name', $name)
-            ->orWhereHas('CarsModels', fn ($query) => $query->where('name', $name))
-            ->with('CarsModels')
+            ->orWhereHas('carModels', fn ($query) => $query->where('name', $name))
+            ->with(['carModels', 'createdBy:id,name'])
             ->firstOrFail(['id', 'name', 'created_by']);
 
         return response()->json([
@@ -93,6 +96,7 @@ class CarBrandsController extends Controller
     {
         $createdBy = User::getUserByAccessToken($request->bearerToken())->id;
         $brands = CarBrand::query()
+            ->with('createdBy:id,name')
             ->select(['id', 'name', 'created_by'])
             ->where('created_by', $createdBy)
             ->paginate();

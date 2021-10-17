@@ -174,8 +174,11 @@ class CarBrandsControllerTest extends TestCase
             'data' => [
                 'id',
                 'name',
-                'created_by',
-                'cars_models' => [
+                'created_by' => [
+                    'id',
+                    'name'
+                ],
+                'car_models' => [
                     '*' => [
                         'id',
                         'name',
@@ -191,8 +194,11 @@ class CarBrandsControllerTest extends TestCase
             'data' => [
                 'id',
                 'name',
-                'created_by',
-                'cars_models' => [
+                'created_by' => [
+                    'id',
+                    'name'
+                ],
+                'car_models' => [
                     '*' => [
                         'id',
                         'name',
@@ -216,10 +222,18 @@ class CarBrandsControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                    'created_by'
+                    'created_by' => [
+                        'id',
+                        'name'
+                    ]
                 ]
             ],
             'links'
-        ])->assertJsonFragment(['created_by' => (string)$this->user->id]);
+        ])->assertJsonFragment([
+            'created_by' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ]
+        ]);
     }
 }
